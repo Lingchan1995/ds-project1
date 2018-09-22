@@ -25,7 +25,9 @@ public class Connection extends Thread {
 	private Socket socket;
 	private boolean term=false;
 	
-	Connection(Socket socket) throws IOException{
+	
+	//Zhenyuan: change to public
+	public Connection(Socket socket) throws IOException{
 		in = new DataInputStream(socket.getInputStream());
 	    out = new DataOutputStream(socket.getOutputStream());
 	    inreader = new BufferedReader( new InputStreamReader(in));
@@ -72,8 +74,10 @@ public class Connection extends Thread {
 			Control.getInstance().connectionClosed(this);
 			in.close();
 		} catch (IOException e) {
-			log.error("connection "+Settings.socketAddress(socket)+" closed with exception: "+e);
+			Control.removeServersList(this);
 			Control.getInstance().connectionClosed(this);
+			Control.getInstance().load = Control.getInstance().getConnections().size() - Control.getInstance().getServerConnections().size();
+			log.error("connection "+Settings.socketAddress(socket)+" closed with exception: "+e);
 		}
 		open=false;
 	}
@@ -82,7 +86,13 @@ public class Connection extends Thread {
 		return socket;
 	}
 	
+	public boolean equals(Connection con) {
+		return con.getSocket()==socket;
+	}
+	
 	public boolean isOpen() {
 		return open;
 	}
+	
+	
 }

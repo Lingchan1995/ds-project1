@@ -1,7 +1,15 @@
 package activitystreamer;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.commons.cli.CommandLine;
@@ -28,6 +36,7 @@ public class Server {
 	}
 	
 	public static void main(String[] args) {
+		
 		
 		log.info("reading command line options");
 		
@@ -100,8 +109,8 @@ public class Server {
 		
 		log.info("starting server");
 		
-		
 		final Control c = Control.getInstance(); 
+		c.initiateConnection();
 		// the following shutdown hook doesn't really work, it doesn't give us enough time to
 		// cleanup all of our connections before the jvm is terminated.
 		Runtime.getRuntime().addShutdownHook(new Thread() {

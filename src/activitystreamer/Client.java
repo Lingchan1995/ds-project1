@@ -1,4 +1,14 @@
-package activitystreamer;
+package activitystreamer;  //{"command":"REGISTER", "username":"max","secret":"123"}
+							// {"command":"LOGIN", "username":"max","secret":"123"}
+							//{"command":"LOGOUT"}
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -25,6 +35,7 @@ public class Client {
 	}
 	
 	public static void main(String[] args) {
+		
 		
 		log.info("reading command line options");
 		
@@ -75,6 +86,7 @@ public class Client {
 		
 			
 		ClientSkeleton c = ClientSkeleton.getInstance(); 
+		log.info("\n\nsecret for "+Settings.getUsername()+" is "+Settings.getSecret()+"\n");
 				
 			
 		

@@ -17,8 +17,7 @@ public class Settings {
 	private static int activityInterval = 5000; // milliseconds
 	private static String secret = null;
 	private static String username = "anonymous";
-
-	
+	private static int sequence = 0;                  // ¶¡Ñ©Ñô
 	public static int getLocalPort() {
 		return localPort;
 	}
@@ -79,11 +78,18 @@ public class Settings {
 		return localHostname;
 	}
 
+	
+	
 	public static void setLocalHostname(String localHostname) {
 		Settings.localHostname = localHostname;
 	}
-
 	
+	public static int getSequence() {
+		return sequence;
+	}
+	public static void setSequence(int sequence) {
+		Settings.sequence = sequence;
+	}
 	/*
 	 * some general helper functions
 	 */

@@ -25,6 +25,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import activitystreamer.util.Settings;
+
 @SuppressWarnings("serial")
 public class TextFrame extends JFrame implements ActionListener {
 	private static final Logger log = LogManager.getLogger();
@@ -86,6 +88,7 @@ public class TextFrame extends JFrame implements ActionListener {
 		outputText.repaint();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==sendButton){
@@ -93,12 +96,24 @@ public class TextFrame extends JFrame implements ActionListener {
 			JSONObject obj;
 			try {
 				obj = (JSONObject) parser.parse(msg);
-				ClientSkeleton.getInstance().sendActivityObject(obj);
+				
+				JSONObject outgoingObj = new JSONObject();
+				if(Settings.getSecret()!=null) {
+					outgoingObj.put("secret", Settings.getSecret());
+				}
+				outgoingObj.put("username", Settings.getUsername());
+				outgoingObj.put("command", "ACTIVITY_MESSAGE"); 
+				outgoingObj.put("activity", obj);
+				
+				ClientSkeleton.getInstance().sendActivityObject(outgoingObj);
 			} catch (ParseException e1) {
 				log.error("invalid JSON object entered into input text field, data not sent");
 			}
 			
 		} else if(e.getSource()==disconnectButton){
+			JSONObject outgoingObj = new JSONObject();
+			outgoingObj.put("command","LOGOUT");
+			ClientSkeleton.getInstance().sendActivityObject(outgoingObj);
 			ClientSkeleton.getInstance().disconnect();
 		}
 	}

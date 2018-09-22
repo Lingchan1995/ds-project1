@@ -23,7 +23,7 @@ public class Listener extends Thread{
 	
 	@Override
 	public void run() {
-		log.info("listening for new connections on "+portnum);
+		log.info("\n\nlistening for new connections on "+portnum+"\n");
 		while(!term){
 			Socket clientSocket;
 			try {
